@@ -7,666 +7,215 @@
   <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --rcb: #D1212A;
-      --csk: #F5A623;
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #0a0a0f;
-      color: #fff;
-      min-height: 100vh;
-    }
-
+    :root { --rcb: #D1212A; --csk: #F5A623; }
+    body { font-family: 'DM Sans', sans-serif; background: #0a0a0f; color: #fff; min-height: 100vh; }
     .page { display: none; }
     .page.active { display: block; }
 
     /* ===== COMING SOON PAGE ===== */
     #coming-soon {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #0a0a0f;
-      position: relative;
-      overflow: hidden;
-      padding: 40px 20px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #0a0a0f; position: relative; overflow: hidden; padding: 40px 20px;
     }
+    .bg-glow-red { position:absolute;top:-80px;left:-80px;width:450px;height:450px;background:radial-gradient(circle,rgba(209,33,42,0.22) 0%,transparent 70%);pointer-events:none; }
+    .bg-glow-yellow { position:absolute;bottom:-80px;right:-80px;width:450px;height:450px;background:radial-gradient(circle,rgba(245,166,35,0.18) 0%,transparent 70%);pointer-events:none; }
+    .vs-banner { display:flex;align-items:center;gap:32px;margin-bottom:24px;position:relative;z-index:1; }
+    .team-badge { display:flex;flex-direction:column;align-items:center;gap:8px; }
+    .team-circle { width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Teko',sans-serif;font-size:30px;font-weight:700;letter-spacing:1px;border:2px solid rgba(255,255,255,0.15); }
+    .rcb-circle { background:linear-gradient(135deg,#D1212A,#8B0000);color:#fff; }
+    .csk-circle { background:linear-gradient(135deg,#F5A623,#c47e0a);color:#000; }
+    .team-name { font-family:'Teko',sans-serif;font-size:13px;letter-spacing:3px;color:rgba(255,255,255,0.5);text-transform:uppercase; }
+    .vs-text { font-family:'Teko',sans-serif;font-size:52px;font-weight:700;color:rgba(255,255,255,0.12);line-height:1; }
+    .match-title { font-family:'Teko',sans-serif;font-size:64px;font-weight:700;text-align:center;line-height:1;margin-bottom:8px;background:linear-gradient(90deg,#D1212A 0%,#fff 50%,#F5A623 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;z-index:1; }
+    .match-subtitle { font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:4px;text-transform:uppercase;text-align:center;margin-bottom:32px;position:relative;z-index:1; }
+    .match-info-card { background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.12);border-radius:16px;padding:20px 32px;display:flex;gap:32px;margin-bottom:36px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1; }
+    .info-item { display:flex;flex-direction:column;align-items:center;gap:3px; }
+    .info-label { font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.3);text-transform:uppercase; }
+    .info-value { font-size:16px;font-weight:600;color:#fff; }
+    .info-divider { width:0.5px;background:rgba(255,255,255,0.1);align-self:stretch; }
 
-    .bg-glow-red {
-      position: absolute; top: -80px; left: -80px;
-      width: 450px; height: 450px;
-      background: radial-gradient(circle, rgba(209,33,42,0.22) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .bg-glow-yellow {
-      position: absolute; bottom: -80px; right: -80px;
-      width: 450px; height: 450px;
-      background: radial-gradient(circle, rgba(245,166,35,0.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
+    .cta-area { position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:16px; }
 
-    .vs-banner {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-      margin-bottom: 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .team-badge {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .team-circle {
-      width: 96px; height: 96px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Teko', sans-serif;
-      font-size: 30px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      border: 2px solid rgba(255,255,255,0.15);
-    }
-
-    .rcb-circle { background: linear-gradient(135deg, #D1212A, #8B0000); color: #fff; }
-    .csk-circle { background: linear-gradient(135deg, #F5A623, #c47e0a); color: #000; }
-
-    .team-name {
-      font-family: 'Teko', sans-serif;
-      font-size: 13px;
-      letter-spacing: 3px;
-      color: rgba(255,255,255,0.5);
-      text-transform: uppercase;
-    }
-
-    .vs-text {
-      font-family: 'Teko', sans-serif;
-      font-size: 52px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.12);
-      line-height: 1;
-    }
-
-    .match-title {
-      font-family: 'Teko', sans-serif;
-      font-size: 64px;
-      font-weight: 700;
-      text-align: center;
-      line-height: 1;
-      margin-bottom: 8px;
-      background: linear-gradient(90deg, #D1212A 0%, #fff 50%, #F5A623 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative; z-index: 1;
-    }
-
-    .match-subtitle {
-      font-size: 12px;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 32px;
-      position: relative; z-index: 1;
-    }
-
-    .match-info-card {
+    .coming-soon-btn {
       background: rgba(255,255,255,0.05);
-      border: 0.5px solid rgba(255,255,255,0.12);
-      border-radius: 16px;
-      padding: 20px 32px;
-      display: flex;
-      gap: 32px;
-      margin-bottom: 36px;
-      flex-wrap: wrap;
-      justify-content: center;
-      position: relative; z-index: 1;
-    }
-
-    .info-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-    }
-
-    .info-label {
-      font-size: 10px;
-      letter-spacing: 2px;
+      border: 0.5px solid rgba(255,255,255,0.15);
       color: rgba(255,255,255,0.3);
-      text-transform: uppercase;
-    }
-
-    .info-value {
-      font-size: 16px;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .info-divider {
-      width: 0.5px;
-      background: rgba(255,255,255,0.1);
-      align-self: stretch;
-    }
-
-    .coming-soon-badge {
-      background: rgba(245,166,35,0.1);
-      border: 0.5px solid rgba(245,166,35,0.35);
-      color: #F5A623;
-      font-size: 11px;
-      letter-spacing: 3px;
-      padding: 7px 20px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      margin-bottom: 28px;
-      display: inline-block;
-      position: relative; z-index: 1;
-    }
-
-    .book-now-btn {
-      background: linear-gradient(135deg, #D1212A, #a01820);
-      color: #fff;
-      border: none;
-      padding: 15px 48px;
-      border-radius: 12px;
-      font-family: 'Teko', sans-serif;
-      font-size: 24px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 4px 28px rgba(209,33,42,0.45);
-      position: relative; z-index: 1;
-    }
-    .book-now-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(209,33,42,0.55); }
-    .book-now-btn:active { transform: translateY(0); }
-
-    /* ===== BOOKING PAGE ===== */
-    #booking-page {
-      background: #0a0a0f;
-      min-height: 100vh;
-      padding: 24px 20px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .booking-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 22px;
-      padding-bottom: 18px;
-      border-bottom: 0.5px solid rgba(255,255,255,0.08);
-    }
-
-    .back-btn {
-      background: rgba(255,255,255,0.06);
-      border: 0.5px solid rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.6);
-      width: 36px; height: 36px;
-      border-radius: 9px;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px;
-      transition: background 0.15s;
-      flex-shrink: 0;
-    }
-    .back-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
-
-    .booking-header-title {
-      font-family: 'Teko', sans-serif;
-      font-size: 28px;
-      font-weight: 600;
-    }
-
-    .booking-header-sub {
-      font-size: 12px;
-      color: rgba(255,255,255,0.38);
-      margin-left: auto;
-    }
-
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    @media (min-width: 600px) {
-      .categories-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
-    }
-
-    .category-card {
-      background: rgba(255,255,255,0.04);
-      border: 0.5px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 14px;
-      transition: border-color 0.2s;
-    }
-
-    .cat-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 6px;
-    }
-
-    .cat-name {
-      font-family: 'Teko', sans-serif;
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 1;
-    }
-
-    .cat-price {
-      font-family: 'Teko', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    .cat-desc {
-      font-size: 11px;
-      color: rgba(255,255,255,0.38);
-      margin-bottom: 10px;
-    }
-
-    .seats-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
-
-    .seat {
-      width: 28px; height: 28px;
-      border-radius: 6px;
-      border: 0.5px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.06);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      color: rgba(255,255,255,0.45);
-      transition: all 0.15s;
-      font-weight: 500;
-      user-select: none;
-    }
-
-    .seat:hover:not(.booked) { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.13); }
-
-    .seat.selected {
-      background: #D1212A;
-      border-color: #D1212A;
-      color: #fff;
-    }
-
-    .seat.booked {
-      background: rgba(255,255,255,0.02);
-      border-color: rgba(255,255,255,0.05);
-      color: rgba(255,255,255,0.1);
+      padding: 15px 48px; border-radius: 12px;
+      font-family: 'Teko', sans-serif; font-size: 24px; font-weight: 600; letter-spacing: 2px;
       cursor: not-allowed;
     }
 
-    .cat-platinum .cat-name { color: #e8d5ff; }
-    .cat-platinum .cat-price { color: #c084fc; }
-    .cat-platinum { border-color: rgba(192,132,252,0.28); }
-    .cat-platinum .seat.selected { background: #9333ea; border-color: #9333ea; }
-
-    .cat-gold .cat-name { color: #fde68a; }
-    .cat-gold .cat-price { color: #F5A623; }
-    .cat-gold { border-color: rgba(245,166,35,0.28); }
-    .cat-gold .seat.selected { background: #d97706; border-color: #d97706; }
-
-    .cat-silver .cat-name { color: #e2e8f0; }
-    .cat-silver .cat-price { color: #94a3b8; }
-    .cat-silver { border-color: rgba(148,163,184,0.28); }
-    .cat-silver .seat.selected { background: #475569; border-color: #475569; }
-
-    .cat-bronze .cat-name { color: #fed7aa; }
-    .cat-bronze .cat-price { color: #f97316; }
-    .cat-bronze { border-color: rgba(249,115,22,0.28); }
-    .cat-bronze .seat.selected { background: #c2410c; border-color: #c2410c; }
-
-    .cat-general .cat-name { color: #bbf7d0; }
-    .cat-general .cat-price { color: #22c55e; }
-    .cat-general { border-color: rgba(34,197,94,0.28); }
-    .cat-general .seat.selected { background: #16a34a; border-color: #16a34a; }
-
-    .cat-premium .cat-name { color: #fecaca; }
-    .cat-premium .cat-price { color: #D1212A; }
-    .cat-premium { border-color: rgba(209,33,42,0.32); }
-    .cat-premium .seat.selected { background: #D1212A; border-color: #D1212A; }
-
-    .legend {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-      align-items: center;
+    .book-now-btn {
+      display: none;
+      background: linear-gradient(135deg,#D1212A,#a01820);
+      color: #fff; border: none;
+      padding: 15px 48px; border-radius: 12px;
+      font-family: 'Teko', sans-serif; font-size: 24px; font-weight: 600; letter-spacing: 2px;
+      cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 28px rgba(209,33,42,0.45);
     }
+    .book-now-btn:hover { transform:translateY(-2px);box-shadow:0 10px 36px rgba(209,33,42,0.55); }
 
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.42);
+    .admin-toggle-wrap {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; color: rgba(255,255,255,0.22);
+      cursor: pointer; user-select: none;
     }
-
-    .legend-box {
-      width: 14px; height: 14px;
-      border-radius: 3px;
-    }
-
-    .summary-bar {
-      background: rgba(255,255,255,0.05);
+    .admin-toggle-wrap input { display: none; }
+    .toggle-track {
+      width: 30px; height: 16px; background: rgba(255,255,255,0.08);
+      border-radius: 8px; position: relative; transition: background 0.2s;
       border: 0.5px solid rgba(255,255,255,0.12);
-      border-radius: 14px;
-      padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-top: 8px;
     }
+    .toggle-track::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,0.25); transition: transform 0.2s, background 0.2s;
+    }
+    .admin-toggle-wrap input:checked + .toggle-track { background: rgba(209,33,42,0.35); border-color: rgba(209,33,42,0.4); }
+    .admin-toggle-wrap input:checked + .toggle-track::after { transform: translateX(14px); background: #D1212A; }
 
-    .summary-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
+    /* ===== QUEUE PAGE ===== */
+    #queue-page { min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center; }
+    .queue-icon { font-size:48px;margin-bottom:18px; }
+    .queue-title { font-family:'Teko',sans-serif;font-size:42px;font-weight:700;margin-bottom:8px; }
+    .queue-sub { font-size:14px;color:rgba(255,255,255,0.45);margin-bottom:32px;line-height:1.7; }
+    .queue-box { background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px 36px;max-width:380px;width:100%;margin-bottom:28px; }
+    .queue-number { font-family:'Teko',sans-serif;font-size:56px;font-weight:700;color:#F5A623;line-height:1; }
+    .queue-number-label { font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.3);text-transform:uppercase;margin-bottom:18px; }
+    .queue-bar-bg { background:rgba(255,255,255,0.08);border-radius:4px;height:6px;margin-bottom:12px;overflow:hidden; }
+    .queue-bar-fill { height:100%;background:#D1212A;border-radius:4px;transition:width 0.5s; }
+    .queue-timer-label { font-size:13px;color:rgba(255,255,255,0.45); }
+    .queue-timer-val { font-weight:600;color:#fff; }
 
-    .summary-label {
-      font-size: 10px;
-      color: rgba(255,255,255,0.35);
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
+    /* ===== CAPTCHA PAGE ===== */
+    #captcha-page { min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px; }
+    .captcha-box { background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px;max-width:420px;width:100%; }
+    .captcha-title { font-family:'Teko',sans-serif;font-size:28px;font-weight:600;margin-bottom:4px; }
+    .captcha-sub { font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:20px; }
+    .captcha-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px; }
+    .captcha-cell { aspect-ratio:1;border-radius:8px;border:1.5px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;transition:border-color 0.15s,background 0.15s;user-select:none; }
+    .captcha-cell.selected { border-color:#D1212A;background:rgba(209,33,42,0.2); }
+    .captcha-cell.wrong { border-color:#ef4444;background:rgba(239,68,68,0.2);animation:shake 0.4s; }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+    .captcha-instruction { background:rgba(245,166,35,0.08);border:0.5px solid rgba(245,166,35,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:16px; }
+    .captcha-err { font-size:12px;color:#ef4444;min-height:18px;margin-bottom:10px;text-align:center; }
+    .captcha-submit { width:100%;background:#D1212A;color:#fff;border:none;padding:12px;border-radius:10px;font-family:'Teko',sans-serif;font-size:20px;letter-spacing:1px;cursor:pointer;opacity:0.4;pointer-events:none;transition:opacity 0.2s; }
+    .captcha-submit.ready { opacity:1;pointer-events:all; }
 
-    .summary-detail {
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.82);
-      min-height: 20px;
-    }
+    /* ===== BOOKING PAGE ===== */
+    #booking-page { background:#0a0a0f;min-height:100vh;padding:24px 20px;max-width:900px;margin:0 auto; }
+    .booking-header { display:flex;align-items:center;gap:14px;margin-bottom:22px;padding-bottom:18px;border-bottom:0.5px solid rgba(255,255,255,0.08); }
+    .back-btn { background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);width:36px;height:36px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;transition:background 0.15s;flex-shrink:0; }
+    .back-btn:hover { background:rgba(255,255,255,0.1);color:#fff; }
+    .booking-header-title { font-family:'Teko',sans-serif;font-size:28px;font-weight:600; }
+    .booking-header-sub { font-size:12px;color:rgba(255,255,255,0.38);margin-left:auto; }
+    .seat-hold-bar { background:rgba(209,33,42,0.08);border:0.5px solid rgba(209,33,42,0.22);border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font-size:13px; }
+    .seat-hold-left { color:rgba(255,255,255,0.5); }
+    .seat-hold-timer { font-family:'Teko',sans-serif;font-size:20px;color:#D1212A;font-weight:600; }
+    .seat-hold-timer.urgent { color:#ef4444;animation:blink 0.8s infinite; }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.4} }
+    .categories-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px; }
+    @media(min-width:600px){ .categories-grid{grid-template-columns:repeat(3,minmax(0,1fr));} }
+    .category-card { background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px; }
+    .cat-header { display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px; }
+    .cat-name { font-family:'Teko',sans-serif;font-size:20px;font-weight:600;line-height:1; }
+    .cat-price { font-family:'Teko',sans-serif;font-size:18px;font-weight:700;line-height:1; }
+    .cat-desc { font-size:11px;color:rgba(255,255,255,0.38);margin-bottom:10px; }
+    .seats-row { display:flex;flex-wrap:wrap;gap:5px; }
+    .seat { width:28px;height:28px;border-radius:6px;border:0.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,0.45);transition:all 0.15s;font-weight:500;user-select:none;position:relative; }
+    .seat:hover:not(.booked):not(.held) { border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.13); }
+    .seat.selected { background:#D1212A;border-color:#D1212A;color:#fff; }
+    .seat.booked { background:rgba(255,255,255,0.02);border-color:rgba(255,255,255,0.05);color:rgba(255,255,255,0.1);cursor:not-allowed; }
+    .seat.held { background:rgba(245,166,35,0.12);border-color:rgba(245,166,35,0.35);color:rgba(245,166,35,0.6);cursor:not-allowed;font-size:9px; }
+    .cat-platinum .cat-name{color:#e8d5ff;} .cat-platinum .cat-price{color:#c084fc;} .cat-platinum{border-color:rgba(192,132,252,0.28);} .cat-platinum .seat.selected{background:#9333ea;border-color:#9333ea;}
+    .cat-gold .cat-name{color:#fde68a;} .cat-gold .cat-price{color:#F5A623;} .cat-gold{border-color:rgba(245,166,35,0.28);} .cat-gold .seat.selected{background:#d97706;border-color:#d97706;}
+    .cat-silver .cat-name{color:#e2e8f0;} .cat-silver .cat-price{color:#94a3b8;} .cat-silver{border-color:rgba(148,163,184,0.28);} .cat-silver .seat.selected{background:#475569;border-color:#475569;}
+    .cat-bronze .cat-name{color:#fed7aa;} .cat-bronze .cat-price{color:#f97316;} .cat-bronze{border-color:rgba(249,115,22,0.28);} .cat-bronze .seat.selected{background:#c2410c;border-color:#c2410c;}
+    .cat-general .cat-name{color:#bbf7d0;} .cat-general .cat-price{color:#22c55e;} .cat-general{border-color:rgba(34,197,94,0.28);} .cat-general .seat.selected{background:#16a34a;border-color:#16a34a;}
+    .cat-premium .cat-name{color:#fecaca;} .cat-premium .cat-price{color:#D1212A;} .cat-premium{border-color:rgba(209,33,42,0.32);} .cat-premium .seat.selected{background:#D1212A;border-color:#D1212A;}
+    .legend { display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap;align-items:center; }
+    .legend-item { display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.42); }
+    .legend-box { width:14px;height:14px;border-radius:3px; }
+    .summary-bar { background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.12);border-radius:14px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:8px; }
+    .summary-info { display:flex;flex-direction:column;gap:2px; }
+    .summary-label { font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase; }
+    .summary-detail { font-size:14px;font-weight:500;color:rgba(255,255,255,0.82);min-height:20px; }
+    .proceed-btn { background:#D1212A;color:#fff;border:none;padding:12px 26px;border-radius:10px;font-family:'Teko',sans-serif;font-size:20px;letter-spacing:1px;cursor:pointer;opacity:0.38;pointer-events:none;transition:opacity 0.2s,transform 0.15s; }
+    .proceed-btn.enabled { opacity:1;pointer-events:all; }
+    .proceed-btn.enabled:hover { transform:translateY(-1px); }
+    .max-notice { font-size:11px;color:rgba(245,166,35,0.85);text-align:center;min-height:16px;letter-spacing:0.5px;margin-top:6px; }
 
-    .proceed-btn {
-      background: #D1212A;
-      color: #fff;
-      border: none;
-      padding: 12px 26px;
-      border-radius: 10px;
-      font-family: 'Teko', sans-serif;
-      font-size: 20px;
-      letter-spacing: 1px;
-      cursor: pointer;
-      opacity: 0.38;
-      pointer-events: none;
-      transition: opacity 0.2s, transform 0.15s;
-    }
+    /* ===== MATH CHALLENGE ===== */
+    #math-page { min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px; }
+    .math-box { background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.12);border-radius:16px;padding:30px;max-width:420px;width:100%;text-align:center; }
+    .math-title { font-family:'Teko',sans-serif;font-size:28px;margin-bottom:6px; }
+    .math-sub { font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:24px; }
+    .math-question { font-family:'Teko',sans-serif;font-size:38px;color:#F5A623;margin-bottom:20px;letter-spacing:2px; }
+    .math-input { width:100%;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.2);border-radius:10px;padding:12px;color:#fff;font-size:22px;font-family:'Teko',sans-serif;text-align:center;outline:none;transition:border-color 0.2s;letter-spacing:2px; }
+    .math-input:focus { border-color:rgba(245,166,35,0.5); }
+    .math-err { font-size:12px;color:#ef4444;min-height:18px;margin:10px 0; }
+    .math-attempts { font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:14px; }
+    .math-submit { width:100%;background:#D1212A;color:#fff;border:none;padding:12px;border-radius:10px;font-family:'Teko',sans-serif;font-size:20px;letter-spacing:1px;cursor:pointer;transition:transform 0.15s; }
+    .math-submit:hover { transform:translateY(-1px); }
 
-    .proceed-btn.enabled {
-      opacity: 1;
-      pointer-events: all;
-    }
-    .proceed-btn.enabled:hover { transform: translateY(-1px); }
-
-    .max-notice {
-      font-size: 11px;
-      color: rgba(245,166,35,0.85);
-      text-align: center;
-      min-height: 16px;
-      letter-spacing: 0.5px;
-      margin-top: 6px;
-    }
+    /* ===== SEAT ERROR ===== */
+    #seat-error-page { min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center; }
+    .error-icon { font-size:52px;margin-bottom:16px; }
+    .error-title { font-family:'Teko',sans-serif;font-size:40px;font-weight:700;color:#ef4444;margin-bottom:8px; }
+    .error-sub { font-size:14px;color:rgba(255,255,255,0.45);margin-bottom:28px;line-height:1.7; }
+    .retry-btn { background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.7);padding:11px 28px;border-radius:10px;font-size:14px;cursor:pointer;transition:background 0.15s;font-family:'DM Sans',sans-serif; }
+    .retry-btn:hover { background:rgba(255,255,255,0.1);color:#fff; }
 
     /* ===== PAYMENT PAGE ===== */
-    #payment-page {
-      background: #0a0a0f;
-      min-height: 100vh;
-      padding: 24px 20px;
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
-    .payment-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 26px;
-      padding-bottom: 18px;
-      border-bottom: 0.5px solid rgba(255,255,255,0.08);
-    }
-
-    .payment-header-title {
-      font-family: 'Teko', sans-serif;
-      font-size: 28px;
-      font-weight: 600;
-    }
-
-    .order-summary-card {
-      background: rgba(255,255,255,0.04);
-      border: 0.5px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 16px;
-    }
-
-    .order-summary-title {
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: rgba(255,255,255,0.32);
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    .order-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      font-size: 14px;
-      border-bottom: 0.5px solid rgba(255,255,255,0.06);
-    }
-    .order-row:last-of-type { border-bottom: none; }
-
-    .order-key { color: rgba(255,255,255,0.48); }
-    .order-val { font-weight: 500; }
-
-    .order-total-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 14px 0 4px;
-      font-family: 'Teko', sans-serif;
-      font-size: 24px;
-      font-weight: 600;
-      border-top: 0.5px solid rgba(255,255,255,0.1);
-      margin-top: 6px;
-    }
-
-    .order-total-key { color: rgba(255,255,255,0.65); }
-    .order-total-val { color: #F5A623; }
-
-    .payment-form {
-      background: rgba(255,255,255,0.04);
-      border: 0.5px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 16px;
-    }
-
-    .payment-form-title {
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: rgba(255,255,255,0.32);
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    .form-field { margin-bottom: 13px; }
-
-    .form-label {
-      font-size: 11px;
-      color: rgba(255,255,255,0.42);
-      margin-bottom: 5px;
-      display: block;
-      letter-spacing: 0.5px;
-    }
-
-    .form-input {
-      width: 100%;
-      background: rgba(255,255,255,0.06);
-      border: 0.5px solid rgba(255,255,255,0.14);
-      border-radius: 9px;
-      padding: 11px 13px;
-      color: #fff;
-      font-size: 14px;
-      font-family: 'DM Sans', sans-serif;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .form-input:focus { border-color: rgba(209,33,42,0.6); }
-
-    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-    .pay-methods {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .pay-method {
-      flex: 1;
-      min-width: 80px;
-      padding: 9px 12px;
-      border-radius: 9px;
-      border: 0.5px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-      color: rgba(255,255,255,0.5);
-      font-size: 13px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.15s;
-      font-family: 'DM Sans', sans-serif;
-    }
-    .pay-method.active {
-      border-color: rgba(209,33,42,0.55);
-      background: rgba(209,33,42,0.1);
-      color: #fff;
-    }
-
-    .pay-now-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #D1212A, #a01820);
-      color: #fff;
-      border: none;
-      padding: 15px;
-      border-radius: 12px;
-      font-family: 'Teko', sans-serif;
-      font-size: 24px;
-      letter-spacing: 2px;
-      cursor: pointer;
-      box-shadow: 0 4px 24px rgba(209,33,42,0.42);
-      transition: transform 0.15s;
-    }
-    .pay-now-btn:hover { transform: translateY(-1px); }
+    #payment-page { background:#0a0a0f;min-height:100vh;padding:24px 20px;max-width:560px;margin:0 auto; }
+    .payment-header { display:flex;align-items:center;gap:14px;margin-bottom:26px;padding-bottom:18px;border-bottom:0.5px solid rgba(255,255,255,0.08); }
+    .payment-header-title { font-family:'Teko',sans-serif;font-size:28px;font-weight:600; }
+    .order-summary-card { background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:16px; }
+    .order-summary-title { font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.32);text-transform:uppercase;margin-bottom:14px; }
+    .order-row { display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:14px;border-bottom:0.5px solid rgba(255,255,255,0.06); }
+    .order-key { color:rgba(255,255,255,0.48); }
+    .order-val { font-weight:500; }
+    .order-total-row { display:flex;justify-content:space-between;padding:14px 0 4px;font-family:'Teko',sans-serif;font-size:24px;font-weight:600;border-top:0.5px solid rgba(255,255,255,0.1);margin-top:6px; }
+    .order-total-key { color:rgba(255,255,255,0.65); }
+    .order-total-val { color:#F5A623; }
+    .payment-form { background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:16px; }
+    .payment-form-title { font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.32);text-transform:uppercase;margin-bottom:14px; }
+    .form-field { margin-bottom:13px; }
+    .form-label { font-size:11px;color:rgba(255,255,255,0.42);margin-bottom:5px;display:block;letter-spacing:0.5px; }
+    .form-input { width:100%;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.14);border-radius:9px;padding:11px 13px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s; }
+    .form-input:focus { border-color:rgba(209,33,42,0.6); }
+    .form-row-2 { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+    .pay-methods { display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap; }
+    .pay-method { flex:1;min-width:80px;padding:9px 12px;border-radius:9px;border:0.5px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);font-size:13px;cursor:pointer;text-align:center;transition:all 0.15s;font-family:'DM Sans',sans-serif; }
+    .pay-method.active { border-color:rgba(209,33,42,0.55);background:rgba(209,33,42,0.1);color:#fff; }
+    .pay-now-btn { width:100%;background:linear-gradient(135deg,#D1212A,#a01820);color:#fff;border:none;padding:15px;border-radius:12px;font-family:'Teko',sans-serif;font-size:24px;letter-spacing:2px;cursor:pointer;box-shadow:0 4px 24px rgba(209,33,42,0.42);transition:transform 0.15s; }
+    .pay-now-btn:hover { transform:translateY(-1px); }
+    .otp-section { background:rgba(245,166,35,0.05);border:0.5px solid rgba(245,166,35,0.18);border-radius:10px;padding:14px;margin-bottom:14px; }
+    .otp-label { font-size:12px;color:rgba(245,166,35,0.75);margin-bottom:8px; }
+    .otp-row { display:flex;gap:8px;align-items:center; }
+    .otp-boxes { display:flex;gap:6px; }
+    .otp-box { width:38px;height:44px;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;font-size:18px;font-family:'Teko',sans-serif;text-align:center;outline:none; }
+    .otp-box:focus { border-color:rgba(245,166,35,0.6); }
+    .otp-send-btn { font-size:12px;color:rgba(245,166,35,0.7);background:none;border:0.5px solid rgba(245,166,35,0.3);padding:6px 10px;border-radius:7px;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif; }
+    .otp-status { font-size:11px;min-height:16px;margin-top:6px; }
+    .confirm-check-wrap { display:flex;align-items:flex-start;gap:10px;font-size:12px;color:rgba(255,255,255,0.42);margin-bottom:14px;cursor:pointer;user-select:none;line-height:1.6; }
+    .confirm-check-wrap input { margin-top:3px;accent-color:#D1212A;flex-shrink:0; }
 
     /* ===== SUCCESS PAGE ===== */
-    #success-page {
-      background: #0a0a0f;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    .success-icon {
-      width: 76px; height: 76px;
-      background: rgba(34,197,94,0.1);
-      border: 1.5px solid rgba(34,197,94,0.38);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 30px;
-      margin-bottom: 22px;
-    }
-
-    .success-title {
-      font-family: 'Teko', sans-serif;
-      font-size: 46px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: #22c55e;
-    }
-
-    .success-sub {
-      font-size: 14px;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 28px;
-      line-height: 1.7;
-    }
-
-    .ticket-stub {
-      background: rgba(255,255,255,0.04);
-      border: 0.5px solid rgba(255,255,255,0.12);
-      border-radius: 16px;
-      padding: 20px 24px;
-      max-width: 360px;
-      width: 100%;
-      text-align: left;
-      margin-bottom: 28px;
-    }
-
-    .stub-match {
-      font-family: 'Teko', sans-serif;
-      font-size: 26px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      background: linear-gradient(90deg, #D1212A, #F5A623);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .stub-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      padding: 6px 0;
-      border-bottom: 0.5px solid rgba(255,255,255,0.06);
-    }
-    .stub-row:last-child { border: none; }
-    .stub-key { color: rgba(255,255,255,0.38); }
-    .stub-val { font-weight: 500; }
-
-    .home-btn {
-      background: rgba(255,255,255,0.06);
-      border: 0.5px solid rgba(255,255,255,0.14);
-      color: rgba(255,255,255,0.65);
-      padding: 11px 28px;
-      border-radius: 10px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.15s;
-      font-family: 'DM Sans', sans-serif;
-    }
-    .home-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    #success-page { background:#0a0a0f;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center; }
+    .success-icon { width:76px;height:76px;background:rgba(34,197,94,0.1);border:1.5px solid rgba(34,197,94,0.38);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:22px; }
+    .success-title { font-family:'Teko',sans-serif;font-size:46px;font-weight:700;margin-bottom:10px;color:#22c55e; }
+    .success-sub { font-size:14px;color:rgba(255,255,255,0.45);margin-bottom:28px;line-height:1.7; }
+    .ticket-stub { background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.12);border-radius:16px;padding:20px 24px;max-width:360px;width:100%;text-align:left;margin-bottom:28px; }
+    .stub-match { font-family:'Teko',sans-serif;font-size:26px;font-weight:600;margin-bottom:12px;background:linear-gradient(90deg,#D1212A,#F5A623);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .stub-row { display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:0.5px solid rgba(255,255,255,0.06); }
+    .stub-row:last-child { border:none; }
+    .stub-key { color:rgba(255,255,255,0.38); }
+    .stub-val { font-weight:500; }
+    .home-btn { background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.65);padding:11px 28px;border-radius:10px;font-size:14px;cursor:pointer;transition:background 0.15s;font-family:'DM Sans',sans-serif; }
+    .home-btn:hover { background:rgba(255,255,255,0.1);color:#fff; }
   </style>
 </head>
 <body>
@@ -675,78 +224,82 @@
 <div id="coming-soon" class="page active">
   <div class="bg-glow-red"></div>
   <div class="bg-glow-yellow"></div>
-
-  <div class="coming-soon-badge">🔔 Coming Soon</div>
-
   <div class="vs-banner">
-    <div class="team-badge">
-      <div class="team-circle rcb-circle">RCB</div>
-      <div class="team-name">Bangalore</div>
-    </div>
+    <div class="team-badge"><div class="team-circle rcb-circle">RCB</div><div class="team-name">Bangalore</div></div>
     <div class="vs-text">VS</div>
-    <div class="team-badge">
-      <div class="team-circle csk-circle">CSK</div>
-      <div class="team-name">Chennai</div>
-    </div>
+    <div class="team-badge"><div class="team-circle csk-circle">CSK</div><div class="team-name">Chennai</div></div>
   </div>
-
   <div class="match-title">EPIC CLASH</div>
   <div class="match-subtitle">IPL 2025 · Match Day</div>
-
   <div class="match-info-card">
-    <div class="info-item">
-      <span class="info-label">Date</span>
-      <span class="info-value">Apr 18, 2025</span>
-    </div>
+    <div class="info-item"><span class="info-label">Date</span><span class="info-value">Apr 18, 2025</span></div>
     <div class="info-divider"></div>
-    <div class="info-item">
-      <span class="info-label">Time</span>
-      <span class="info-value">7:30 PM IST</span>
-    </div>
+    <div class="info-item"><span class="info-label">Time</span><span class="info-value">7:30 PM IST</span></div>
     <div class="info-divider"></div>
-    <div class="info-item">
-      <span class="info-label">Venue</span>
-      <span class="info-value">M. Chinnaswamy</span>
-    </div>
+    <div class="info-item"><span class="info-label">Venue</span><span class="info-value">M. Chinnaswamy</span></div>
     <div class="info-divider"></div>
-    <div class="info-item">
-      <span class="info-label">City</span>
-      <span class="info-value">Bengaluru</span>
-    </div>
+    <div class="info-item"><span class="info-label">City</span><span class="info-value">Bengaluru</span></div>
   </div>
+  <div class="cta-area">
+    <button class="coming-soon-btn" id="coming-soon-btn">🔒 COMING SOON</button>
+    <button class="book-now-btn" id="book-now-btn" onclick="startQueue()">BOOK NOW →</button>
+    <label class="admin-toggle-wrap">
+      <input type="checkbox" id="admin-toggle" onchange="toggleBooking(this.checked)">
+      <span class="toggle-track"></span>
+      <span>Enable booking</span>
+    </label>
+  </div>
+</div>
 
-  <button class="book-now-btn" onclick="showPage('booking-page')">BOOK NOW →</button>
+<!-- QUEUE WAITING ROOM -->
+<div id="queue-page" class="page">
+  <div class="queue-icon">🎟️</div>
+  <div class="queue-title">You're in the Queue</div>
+  <div class="queue-sub">High demand! Please wait while we hold<br>your spot in line.</div>
+  <div class="queue-box">
+    <div class="queue-number-label">Your Position</div>
+    <div class="queue-number" id="queue-pos">—</div>
+    <div style="height:16px"></div>
+    <div class="queue-bar-bg"><div class="queue-bar-fill" id="queue-bar" style="width:0%"></div></div>
+    <div class="queue-timer-label">Estimated wait: <span class="queue-timer-val" id="queue-eta">—</span></div>
+  </div>
+  <div style="font-size:12px;color:rgba(255,255,255,0.22);max-width:300px;line-height:1.8;text-align:center;">
+    Do not refresh or close this page.<br>Your position will be permanently lost.
+  </div>
+</div>
+
+<!-- CAPTCHA PAGE -->
+<div id="captcha-page" class="page">
+  <div class="captcha-box">
+    <div class="captcha-title">Human Verification</div>
+    <div class="captcha-sub">Select all tiles matching the instruction</div>
+    <div class="captcha-instruction" id="captcha-instruction">Loading...</div>
+    <div class="captcha-grid" id="captcha-grid"></div>
+    <div class="captcha-err" id="captcha-err"></div>
+    <button class="captcha-submit" id="captcha-submit" onclick="submitCaptcha()">VERIFY →</button>
+  </div>
 </div>
 
 <!-- BOOKING PAGE -->
 <div id="booking-page" class="page">
   <div class="booking-header">
     <button class="back-btn" onclick="showPage('coming-soon')">←</button>
-    <div>
-      <div class="booking-header-title">Select Seats</div>
-    </div>
+    <div><div class="booking-header-title">Select Seats</div></div>
     <div class="booking-header-sub">RCB vs CSK · Apr 18</div>
   </div>
-
-  <div class="legend">
-    <div class="legend-item">
-      <div class="legend-box" style="background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.2)"></div>
-      Available
-    </div>
-    <div class="legend-item">
-      <div class="legend-box" style="background:#D1212A;"></div>
-      Selected
-    </div>
-    <div class="legend-item">
-      <div class="legend-box" style="background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06)"></div>
-      Booked
-    </div>
+  <div class="seat-hold-bar">
+    <span class="seat-hold-left">⏱ Seat hold expires in</span>
+    <span class="seat-hold-timer" id="hold-timer">8:00</span>
   </div>
-
+  <div class="legend">
+    <div class="legend-item"><div class="legend-box" style="background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.2)"></div>Available</div>
+    <div class="legend-item"><div class="legend-box" style="background:#D1212A;"></div>Selected</div>
+    <div class="legend-item"><div class="legend-box" style="background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.05)"></div>Booked</div>
+    <div class="legend-item"><div class="legend-box" style="background:rgba(245,166,35,0.12);border:0.5px solid rgba(245,166,35,0.35)"></div>Held by others</div>
+  </div>
   <div class="categories-grid" id="categories-grid"></div>
-
   <div class="max-notice" id="max-notice"></div>
-
+  <div style="height:10px"></div>
   <div class="summary-bar">
     <div class="summary-info">
       <span class="summary-label">Selected</span>
@@ -756,8 +309,29 @@
       <span class="summary-label">Total</span>
       <span class="summary-detail" id="summary-total" style="font-family:'Teko',sans-serif;font-size:22px;color:#F5A623">₹0</span>
     </div>
-    <button class="proceed-btn" id="proceed-btn" onclick="goToPayment()">PROCEED →</button>
+    <button class="proceed-btn" id="proceed-btn" onclick="goToMathChallenge()">PROCEED →</button>
   </div>
+</div>
+
+<!-- MATH CHALLENGE -->
+<div id="math-page" class="page">
+  <div class="math-box">
+    <div class="math-title">Security Check</div>
+    <div class="math-sub">Solve this to confirm you're not a bot</div>
+    <div class="math-question" id="math-question"></div>
+    <div class="math-attempts" id="math-attempts">3 attempts remaining</div>
+    <input class="math-input" type="number" id="math-input" placeholder="?">
+    <div class="math-err" id="math-err"></div>
+    <button class="math-submit" onclick="submitMath()">CONFIRM →</button>
+  </div>
+</div>
+
+<!-- SEAT TAKEN ERROR -->
+<div id="seat-error-page" class="page">
+  <div class="error-icon">😬</div>
+  <div class="error-title">Seats Taken!</div>
+  <div class="error-sub" id="seat-error-msg">Someone just grabbed your seats. Please choose different ones.</div>
+  <button class="retry-btn" onclick="goBackToSeats()">← Choose Different Seats</button>
 </div>
 
 <!-- PAYMENT PAGE -->
@@ -766,7 +340,6 @@
     <button class="back-btn" onclick="showPage('booking-page')">←</button>
     <div class="payment-header-title">Payment</div>
   </div>
-
   <div class="order-summary-card">
     <div class="order-summary-title">Order Summary</div>
     <div id="order-summary-rows"></div>
@@ -775,53 +348,49 @@
       <span class="order-total-val" id="order-total-val">₹0</span>
     </div>
   </div>
-
   <div class="payment-form">
     <div class="payment-form-title">Payment Method</div>
     <div class="pay-methods">
-      <div class="pay-method active" onclick="setPayMethod(this, true)">💳 Card</div>
-      <div class="pay-method" onclick="setPayMethod(this, false)">UPI</div>
-      <div class="pay-method" onclick="setPayMethod(this, false)">Net Banking</div>
-      <div class="pay-method" onclick="setPayMethod(this, false)">Wallet</div>
+      <div class="pay-method active" onclick="setPayMethod(this,'card')">💳 Card</div>
+      <div class="pay-method" onclick="setPayMethod(this,'upi')">UPI</div>
+      <div class="pay-method" onclick="setPayMethod(this,'nb')">Net Banking</div>
+      <div class="pay-method" onclick="setPayMethod(this,'wallet')">Wallet</div>
     </div>
-
     <div id="card-fields">
-      <div class="form-field">
-        <label class="form-label">Card Number</label>
-        <input class="form-input" type="text" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Cardholder Name</label>
-        <input class="form-input" type="text" placeholder="Name on card">
-      </div>
+      <div class="form-field"><label class="form-label">Card Number</label><input class="form-input" type="text" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)"></div>
+      <div class="form-field"><label class="form-label">Cardholder Name</label><input class="form-input" type="text" placeholder="Name on card"></div>
       <div class="form-row-2">
-        <div class="form-field" style="margin:0">
-          <label class="form-label">Expiry</label>
-          <input class="form-input" type="text" placeholder="MM / YY" maxlength="7">
-        </div>
-        <div class="form-field" style="margin:0">
-          <label class="form-label">CVV</label>
-          <input class="form-input" type="password" placeholder="•••" maxlength="3">
-        </div>
+        <div class="form-field" style="margin:0"><label class="form-label">Expiry</label><input class="form-input" type="text" placeholder="MM / YY" maxlength="7"></div>
+        <div class="form-field" style="margin:0"><label class="form-label">CVV</label><input class="form-input" type="password" placeholder="•••" maxlength="3"></div>
       </div>
     </div>
-
-    <div id="upi-fields" style="display:none">
-      <div class="form-field">
-        <label class="form-label">UPI ID</label>
-        <input class="form-input" type="text" placeholder="yourname@upi">
-      </div>
-    </div>
-
-    <div id="other-fields" style="display:none">
-      <div class="form-field">
-        <label class="form-label">Account / Wallet Number</label>
-        <input class="form-input" type="text" placeholder="Enter details">
-      </div>
-    </div>
+    <div id="upi-fields" style="display:none"><div class="form-field"><label class="form-label">UPI ID</label><input class="form-input" type="text" placeholder="yourname@upi"></div></div>
+    <div id="nb-fields" style="display:none"><div class="form-field"><label class="form-label">Bank Name</label><input class="form-input" type="text" placeholder="e.g. SBI, HDFC"></div></div>
+    <div id="wallet-fields" style="display:none"><div class="form-field"><label class="form-label">Wallet Number</label><input class="form-input" type="text" placeholder="Registered mobile number"></div></div>
   </div>
 
-  <button class="pay-now-btn" onclick="doPayment()">PAY NOW</button>
+  <div class="otp-section">
+    <div class="otp-label">📱 Mobile OTP Verification Required</div>
+    <div class="otp-row">
+      <div class="otp-boxes">
+        <input class="otp-box" type="text" maxlength="1" oninput="otpMove(this,0)" id="otp0">
+        <input class="otp-box" type="text" maxlength="1" oninput="otpMove(this,1)" id="otp1">
+        <input class="otp-box" type="text" maxlength="1" oninput="otpMove(this,2)" id="otp2">
+        <input class="otp-box" type="text" maxlength="1" oninput="otpMove(this,3)" id="otp3">
+        <input class="otp-box" type="text" maxlength="1" oninput="otpMove(this,4)" id="otp4">
+        <input class="otp-box" type="text" maxlength="1" oninput="otpMove(this,5)" id="otp5">
+      </div>
+      <button class="otp-send-btn" id="otp-send-btn" onclick="sendOTP()">Send OTP</button>
+    </div>
+    <div class="otp-status" id="otp-status"></div>
+  </div>
+
+  <label class="confirm-check-wrap">
+    <input type="checkbox" id="confirm-check" onchange="updatePayBtn()">
+    I confirm that I have read and agree to the Terms &amp; Conditions, Refund Policy, and Stadium Entry Rules. I understand that tickets are non-transferable and non-refundable once issued.
+  </label>
+
+  <button class="pay-now-btn" id="pay-now-btn" style="opacity:0.35;pointer-events:none" onclick="doPayment()">PAY NOW</button>
 </div>
 
 <!-- SUCCESS PAGE -->
@@ -829,176 +398,277 @@
   <div class="success-icon">✓</div>
   <div class="success-title">Booking Confirmed!</div>
   <div class="success-sub">Your tickets are confirmed.<br>Check your email for the e-tickets.</div>
-
-  <div class="ticket-stub" id="ticket-stub">
-    <div class="stub-match">RCB vs CSK</div>
-    <div id="stub-rows"></div>
-  </div>
-
+  <div class="ticket-stub"><div class="stub-match">RCB vs CSK</div><div id="stub-rows"></div></div>
   <button class="home-btn" onclick="resetAndHome()">← Back to Home</button>
 </div>
 
 <script>
   const CATEGORIES = [
-    { id:'platinum', name:'Platinum', desc:'Pavilion – Best view',   price:25000, cls:'cat-platinum', booked:[3,7] },
-    { id:'gold',     name:'Gold',     desc:'Club Level',             price:15000, cls:'cat-gold',     booked:[1,5] },
-    { id:'premium',  name:'Premium',  desc:'Lower Tier – Front',     price:10000, cls:'cat-premium',  booked:[2,8] },
-    { id:'silver',   name:'Silver',   desc:'Lower Tier – Mid',       price:5000,  cls:'cat-silver',   booked:[4,9] },
-    { id:'bronze',   name:'Bronze',   desc:'Upper Tier',             price:2000,  cls:'cat-bronze',   booked:[6,10] },
-    { id:'general',  name:'General',  desc:'Open Stand',             price:1000,  cls:'cat-general',  booked:[3,6] },
+    { id:'platinum', name:'Platinum', desc:'Pavilion – Best view',  price:25000, cls:'cat-platinum', booked:[3,7],  held:[2,9]  },
+    { id:'gold',     name:'Gold',     desc:'Club Level',            price:15000, cls:'cat-gold',     booked:[1,5],  held:[3,8]  },
+    { id:'premium',  name:'Premium',  desc:'Lower Tier – Front',    price:10000, cls:'cat-premium',  booked:[2,8],  held:[1,6]  },
+    { id:'silver',   name:'Silver',   desc:'Lower Tier – Mid',      price:5000,  cls:'cat-silver',   booked:[4,9],  held:[2,7]  },
+    { id:'bronze',   name:'Bronze',   desc:'Upper Tier',            price:2000,  cls:'cat-bronze',   booked:[6,10], held:[3,5]  },
+    { id:'general',  name:'General',  desc:'Open Stand',            price:1000,  cls:'cat-general',  booked:[3,6],  held:[4,9]  },
   ];
 
   const SEATS_PER_CAT = 10;
   const MAX_SEATS = 2;
   let selected = [];
+  let holdTimerInterval = null;
+  let holdSeconds = 480;
+  let queueInterval = null;
+  let currentOTP = null;
+  let otpVerified = false;
+  let mathAnswer = null;
+  let mathAttempts = 3;
+  let seatErrorCount = 0;
 
-  function formatPrice(p) {
-    return '₹' + p.toLocaleString('en-IN');
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  function formatPrice(p) { return '₹' + p.toLocaleString('en-IN'); }
+
+  // ── TOGGLE ──────────────────────────────────────────────────────
+  function toggleBooking(on) {
+    document.getElementById('coming-soon-btn').style.display = on ? 'none' : '';
+    document.getElementById('book-now-btn').style.display    = on ? ''     : 'none';
+  }
+
+  // ── QUEUE ────────────────────────────────────────────────────────
+  function startQueue() {
+    showPage('queue-page');
+    let pos = Math.floor(Math.random()*600)+300;
+    const total = pos;
+    document.getElementById('queue-pos').textContent = pos;
+    document.getElementById('queue-eta').textContent = Math.ceil(pos/30)+' min';
+    clearInterval(queueInterval);
+    queueInterval = setInterval(() => {
+      pos -= Math.floor(Math.random()*18)+6;
+      if (pos <= 0) {
+        clearInterval(queueInterval);
+        document.getElementById('queue-pos').textContent = '1';
+        document.getElementById('queue-bar').style.width = '100%';
+        document.getElementById('queue-eta').textContent = 'Now!';
+        setTimeout(buildAndShowCaptcha, 800);
+        return;
+      }
+      const pct = Math.round(((total-pos)/total)*100);
+      document.getElementById('queue-pos').textContent = pos;
+      document.getElementById('queue-eta').textContent = Math.max(1,Math.ceil(pos/30))+' min';
+      document.getElementById('queue-bar').style.width = pct+'%';
+    }, 600);
+  }
+
+  // ── CAPTCHA ──────────────────────────────────────────────────────
+  const CAPTCHA_SETS = [
+    { instruction:'Select all tiles showing a 🏏 cricket bat', items:['🏏','⚽','🏏','🎾','🏏','🎸','⚽','🏏','🎵','🏏','🎸','🎾','🏏','⚽','🏏','🎵'], correct:[0,2,4,7,9,12,14] },
+    { instruction:'Select all tiles showing RED 🔴', items:['🔴','🔵','🟢','🔴','🟡','🔴','🟣','🔴','🔵','🔴','🟢','🟡','🔴','🔵','🔴','🟣'], correct:[0,3,5,7,9,12,14] },
+    { instruction:'Select all tiles showing a 🏆 trophy', items:['🏆','🎯','🏆','⚡','🎯','🏆','🎪','🏆','⚡','🎯','🏆','🎪','🏆','⚡','🎯','🏆'], correct:[0,2,5,7,10,12,15] },
+  ];
+  let activeCaptcha = null;
+  let captchaSelected = [];
+  let captchaAttempts = 0;
+
+  function buildAndShowCaptcha() {
+    captchaAttempts = 0; captchaSelected = [];
+    activeCaptcha = CAPTCHA_SETS[Math.floor(Math.random()*CAPTCHA_SETS.length)];
+    document.getElementById('captcha-instruction').textContent = activeCaptcha.instruction;
+    const grid = document.getElementById('captcha-grid');
+    grid.innerHTML = '';
+    activeCaptcha.items.forEach((item,i) => {
+      const cell = document.createElement('div');
+      cell.className = 'captcha-cell'; cell.textContent = item; cell.dataset.index = i;
+      cell.onclick = () => { const p=captchaSelected.indexOf(i); if(p===-1){captchaSelected.push(i);cell.classList.add('selected');}else{captchaSelected.splice(p,1);cell.classList.remove('selected');} document.getElementById('captcha-submit').classList.toggle('ready',captchaSelected.length>0); };
+      grid.appendChild(cell);
+    });
+    document.getElementById('captcha-err').textContent = '';
+    document.getElementById('captcha-submit').classList.remove('ready');
+    showPage('captcha-page');
+  }
+
+  function submitCaptcha() {
+    const correct = [...activeCaptcha.correct].sort((a,b)=>a-b).join(',');
+    const given   = [...captchaSelected].sort((a,b)=>a-b).join(',');
+    if (correct===given) { startBooking(); return; }
+    captchaAttempts++;
+    document.getElementById('captcha-err').textContent = 'Incorrect. '+(3-captchaAttempts)+' attempt(s) left.';
+    const cells = document.getElementById('captcha-grid').children;
+    captchaSelected.forEach(i => { if(!activeCaptcha.correct.includes(i)){cells[i].classList.add('wrong');setTimeout(()=>{cells[i].classList.remove('wrong','selected');},800);} });
+    captchaSelected=[];
+    document.getElementById('captcha-submit').classList.remove('ready');
+    if(captchaAttempts>=3){document.getElementById('captcha-err').textContent='Too many failures. Restarting…';setTimeout(buildAndShowCaptcha,2000);}
+  }
+
+  // ── BOOKING ──────────────────────────────────────────────────────
+  function startBooking() {
+    selected=[]; holdSeconds=480;
+    buildCategories(); showPage('booking-page'); startHoldTimer();
+  }
+
+  function startHoldTimer() {
+    clearInterval(holdTimerInterval);
+    holdTimerInterval = setInterval(()=>{
+      holdSeconds--;
+      const m=Math.floor(holdSeconds/60), s=holdSeconds%60;
+      const el=document.getElementById('hold-timer');
+      el.textContent=m+':'+String(s).padStart(2,'0');
+      el.classList.toggle('urgent',holdSeconds<=60);
+      if(holdSeconds<=0){clearInterval(holdTimerInterval);alert('⏱ Your seat hold expired! Back to queue.');selected=[];startQueue();}
+    },1000);
   }
 
   function buildCategories() {
-    const grid = document.getElementById('categories-grid');
-    grid.innerHTML = '';
-    CATEGORIES.forEach(cat => {
-      const card = document.createElement('div');
-      card.className = 'category-card ' + cat.cls;
-
-      let seatsHTML = '';
-      for (let s = 1; s <= SEATS_PER_CAT; s++) {
-        const isBooked = cat.booked.includes(s);
-        const isSel = selected.some(x => x.catId === cat.id && x.seatNum === s);
-        const cls = isBooked ? 'seat booked' : isSel ? 'seat selected' : 'seat';
-        seatsHTML += `<div class="${cls}" data-cat="${cat.id}" data-seat="${s}" data-price="${cat.price}" data-catname="${cat.name}" onclick="toggleSeat(this)">${s}</div>`;
+    const grid=document.getElementById('categories-grid'); grid.innerHTML='';
+    CATEGORIES.forEach(cat=>{
+      const card=document.createElement('div'); card.className='category-card '+cat.cls;
+      let html='';
+      for(let s=1;s<=SEATS_PER_CAT;s++){
+        const isB=cat.booked.includes(s),isH=cat.held.includes(s),isS=selected.some(x=>x.catId===cat.id&&x.seatNum===s);
+        const cls=isB?'seat booked':isH?'seat held':isS?'seat selected':'seat';
+        const lbl=isH?'⏳':s;
+        html+=`<div class="${cls}" data-cat="${cat.id}" data-seat="${s}" data-price="${cat.price}" data-catname="${cat.name}" onclick="toggleSeat(this)">${lbl}</div>`;
       }
-
-      card.innerHTML = `
-        <div class="cat-header">
-          <div class="cat-name">${cat.name}</div>
-          <div class="cat-price">${formatPrice(cat.price)}</div>
-        </div>
-        <div class="cat-desc">${cat.desc}</div>
-        <div class="seats-row">${seatsHTML}</div>
-      `;
+      card.innerHTML=`<div class="cat-header"><div class="cat-name">${cat.name}</div><div class="cat-price">${formatPrice(cat.price)}</div></div><div class="cat-desc">${cat.desc}</div><div class="seats-row">${html}</div>`;
       grid.appendChild(card);
     });
   }
 
   function toggleSeat(el) {
-    if (el.classList.contains('booked')) return;
-
-    const catId = el.dataset.cat;
-    const seatNum = parseInt(el.dataset.seat);
-    const price = parseInt(el.dataset.price);
-    const catName = el.dataset.catname;
-
-    const existIdx = selected.findIndex(x => x.catId === catId && x.seatNum === seatNum);
-
-    if (existIdx !== -1) {
-      selected.splice(existIdx, 1);
-      el.classList.remove('selected');
-    } else {
-      if (selected.length >= MAX_SEATS) {
-        const notice = document.getElementById('max-notice');
-        notice.textContent = 'Max 2 seats allowed per booking.';
-        setTimeout(() => { notice.textContent = ''; }, 2500);
-        return;
-      }
-      selected.push({ catId, seatNum, price, catName });
-      el.classList.add('selected');
+    if(el.classList.contains('booked')||el.classList.contains('held')) return;
+    const catId=el.dataset.cat,seatNum=parseInt(el.dataset.seat),price=parseInt(el.dataset.price),catName=el.dataset.catname;
+    const idx=selected.findIndex(x=>x.catId===catId&&x.seatNum===seatNum);
+    if(idx!==-1){selected.splice(idx,1);el.classList.remove('selected');}
+    else{
+      if(selected.length>=MAX_SEATS){const n=document.getElementById('max-notice');n.textContent='Max 2 seats per booking.';setTimeout(()=>{n.textContent='';},2500);return;}
+      selected.push({catId,seatNum,price,catName});el.classList.add('selected');
     }
-
     updateSummary();
   }
 
   function updateSummary() {
-    const detail = document.getElementById('summary-detail');
-    const totalEl = document.getElementById('summary-total');
-    const btn = document.getElementById('proceed-btn');
+    const d=document.getElementById('summary-detail'),t=document.getElementById('summary-total'),b=document.getElementById('proceed-btn');
+    if(selected.length===0){d.textContent='No seats selected';t.textContent='₹0';b.classList.remove('enabled');}
+    else{d.textContent=selected.map(s=>`${s.catName} #${s.seatNum}`).join(' + ');t.textContent=formatPrice(selected.reduce((a,s)=>a+s.price,0));b.classList.add('enabled');}
+  }
 
-    if (selected.length === 0) {
-      detail.textContent = 'No seats selected';
-      totalEl.textContent = '₹0';
-      btn.classList.remove('enabled');
+  // ── MATH ─────────────────────────────────────────────────────────
+  function goToMathChallenge() {
+    if(selected.length===0) return;
+    mathAttempts=3; generateMath(); showPage('math-page');
+  }
+
+  function generateMath() {
+    const ops=[
+      ()=>{const a=Math.floor(Math.random()*30)+10,b=Math.floor(Math.random()*20)+5,c=Math.floor(Math.random()*10)+2;mathAnswer=(a+b)*c;return`(${a} + ${b}) × ${c}`;},
+      ()=>{const a=Math.floor(Math.random()*20)+10,b=Math.floor(Math.random()*10)+2,c=Math.floor(Math.random()*15)+5;mathAnswer=a*b-c;return`${a} × ${b} − ${c}`;},
+      ()=>{const a=Math.floor(Math.random()*50)+20,b=Math.floor(Math.random()*10)+3,c=Math.floor(Math.random()*20)+10;mathAnswer=a+b*c;return`${a} + ${b} × ${c}`;}
+    ];
+    const expr=ops[Math.floor(Math.random()*ops.length)]();
+    document.getElementById('math-question').textContent=expr+' = ?';
+    document.getElementById('math-input').value='';
+    document.getElementById('math-err').textContent='';
+    document.getElementById('math-attempts').textContent=mathAttempts+' attempt(s) remaining';
+  }
+
+  function submitMath() {
+    const val=parseInt(document.getElementById('math-input').value);
+    if(isNaN(val)){document.getElementById('math-err').textContent='Please enter a number.';return;}
+    if(val===mathAnswer){
+      // 40% chance of "seat taken" error (max 2 times total)
+      if(seatErrorCount<2&&Math.random()<0.4){
+        seatErrorCount++;
+        const taken=selected[Math.floor(Math.random()*selected.length)];
+        document.getElementById('seat-error-msg').textContent=`Sorry! ${taken.catName} Seat #${taken.seatNum} was just booked by someone else. Please choose a different seat.`;
+        selected=selected.filter(s=>!(s.catId===taken.catId&&s.seatNum===taken.seatNum));
+        showPage('seat-error-page');
+      } else {
+        seatErrorCount=0; clearInterval(holdTimerInterval);
+        buildPaymentPage(); showPage('payment-page');
+      }
     } else {
-      detail.textContent = selected.map(s => `${s.catName} #${s.seatNum}`).join(' + ');
-      totalEl.textContent = formatPrice(selected.reduce((a, s) => a + s.price, 0));
-      btn.classList.add('enabled');
+      mathAttempts--;
+      document.getElementById('math-err').textContent=mathAttempts>0?`Wrong! ${mathAttempts} attempt(s) left.`:'Out of attempts. New question…';
+      document.getElementById('math-attempts').textContent=mathAttempts+' attempt(s) remaining';
+      if(mathAttempts<=0){setTimeout(()=>{mathAttempts=3;generateMath();},2000);}
     }
   }
 
-  function goToPayment() {
-    if (selected.length === 0) return;
-
-    const rowsEl = document.getElementById('order-summary-rows');
-    rowsEl.innerHTML = '';
-
-    selected.forEach(s => {
-      rowsEl.innerHTML += `<div class="order-row">
-        <span class="order-key">${s.catName} – Seat ${s.seatNum}</span>
-        <span class="order-val">${formatPrice(s.price)}</span>
-      </div>`;
-    });
-
-    const subtotal = selected.reduce((a, s) => a + s.price, 0);
-    const taxes = Math.round(subtotal * 0.05);
-    const total = subtotal + taxes;
-
-    rowsEl.innerHTML += `<div class="order-row">
-      <span class="order-key">Convenience Fee (5%)</span>
-      <span class="order-val">${formatPrice(taxes)}</span>
-    </div>`;
-
-    document.getElementById('order-total-val').textContent = formatPrice(total);
-    showPage('payment-page');
+  function goBackToSeats() {
+    updateSummary(); buildCategories(); showPage('booking-page');
+    startHoldTimer(); setTimeout(goToMathChallenge, 200);
   }
 
-  function doPayment() {
-    buildTicketStub();
-    showPage('success-page');
+  // ── PAYMENT ──────────────────────────────────────────────────────
+  function buildPaymentPage() {
+    const rows=document.getElementById('order-summary-rows'); rows.innerHTML='';
+    selected.forEach(s=>{rows.innerHTML+=`<div class="order-row"><span class="order-key">${s.catName} – Seat ${s.seatNum}</span><span class="order-val">${formatPrice(s.price)}</span></div>`;});
+    const sub=selected.reduce((a,s)=>a+s.price,0), tax=Math.round(sub*0.05);
+    rows.innerHTML+=`<div class="order-row"><span class="order-key">Convenience Fee (5%)</span><span class="order-val">${formatPrice(tax)}</span></div>`;
+    document.getElementById('order-total-val').textContent=formatPrice(sub+tax);
+    otpVerified=false; currentOTP=null;
+    document.getElementById('otp-status').textContent='';
+    document.getElementById('otp-send-btn').disabled=false;
+    document.getElementById('otp-send-btn').textContent='Send OTP';
+    for(let i=0;i<6;i++){const b=document.getElementById('otp'+i);b.value='';b.disabled=false;}
+    document.getElementById('confirm-check').checked=false;
+    document.getElementById('pay-now-btn').style.opacity='0.35';
+    document.getElementById('pay-now-btn').style.pointerEvents='none';
   }
 
-  function buildTicketStub() {
-    const subtotal = selected.reduce((a, s) => a + s.price, 0);
-    const taxes = Math.round(subtotal * 0.05);
-    const total = subtotal + taxes;
-    const seatsList = selected.map(s => `${s.catName} #${s.seatNum}`).join(', ');
-    const booking = 'BK' + Math.floor(Math.random() * 900000 + 100000);
+  function setPayMethod(el,type) {
+    document.querySelectorAll('.pay-method').forEach(e=>e.classList.remove('active')); el.classList.add('active');
+    document.getElementById('card-fields').style.display=type==='card'?'block':'none';
+    document.getElementById('upi-fields').style.display=type==='upi'?'block':'none';
+    document.getElementById('nb-fields').style.display=type==='nb'?'block':'none';
+    document.getElementById('wallet-fields').style.display=type==='wallet'?'block':'none';
+  }
 
-    document.getElementById('stub-rows').innerHTML = `
+  function formatCard(input){let v=input.value.replace(/\D/g,'').substring(0,16);input.value=v.replace(/(.{4})/g,'$1 ').trim();}
+
+  let otpCooldown=0;
+  function sendOTP() {
+    if(otpCooldown>0) return;
+    currentOTP=String(Math.floor(100000+Math.random()*900000));
+    const btn=document.getElementById('otp-send-btn');
+    document.getElementById('otp-status').style.color='#22c55e';
+    document.getElementById('otp-status').textContent=`OTP sent! (Testing: ${currentOTP})`;
+    btn.disabled=true; otpCooldown=30;
+    const cd=setInterval(()=>{otpCooldown--;btn.textContent=`Resend (${otpCooldown}s)`;if(otpCooldown<=0){clearInterval(cd);btn.disabled=false;btn.textContent='Resend OTP';}},1000);
+    document.getElementById('otp0').focus();
+  }
+
+  function otpMove(input,idx) {
+    input.value=input.value.replace(/\D/g,'').slice(-1);
+    if(input.value&&idx<5) document.getElementById('otp'+(idx+1)).focus();
+    const all=Array.from({length:6},(_,i)=>document.getElementById('otp'+i).value).join('');
+    if(all.length===6){
+      if(all===currentOTP){otpVerified=true;document.getElementById('otp-status').style.color='#22c55e';document.getElementById('otp-status').textContent='✓ OTP verified';for(let i=0;i<6;i++)document.getElementById('otp'+i).disabled=true;}
+      else{otpVerified=false;document.getElementById('otp-status').style.color='#ef4444';document.getElementById('otp-status').textContent='✗ Incorrect OTP. Try again.';setTimeout(()=>{for(let i=0;i<6;i++){document.getElementById('otp'+i).value='';document.getElementById('otp'+i).disabled=false;}document.getElementById('otp0').focus();},1000);}
+    }
+    updatePayBtn();
+  }
+
+  function updatePayBtn(){const ok=otpVerified&&document.getElementById('confirm-check').checked;document.getElementById('pay-now-btn').style.opacity=ok?'1':'0.35';document.getElementById('pay-now-btn').style.pointerEvents=ok?'all':'none';}
+
+  function doPayment(){if(!otpVerified)return;buildTicketStub();showPage('success-page');}
+
+  function buildTicketStub(){
+    const sub=selected.reduce((a,s)=>a+s.price,0),tax=Math.round(sub*0.05);
+    const seats=selected.map(s=>`${s.catName} #${s.seatNum}`).join(', ');
+    const id='BK'+Math.floor(Math.random()*900000+100000);
+    document.getElementById('stub-rows').innerHTML=`
       <div class="stub-row"><span class="stub-key">Date</span><span class="stub-val">Apr 18, 2025 · 7:30 PM</span></div>
       <div class="stub-row"><span class="stub-key">Venue</span><span class="stub-val">M. Chinnaswamy, Bengaluru</span></div>
-      <div class="stub-row"><span class="stub-key">Seats</span><span class="stub-val">${seatsList}</span></div>
-      <div class="stub-row"><span class="stub-key">Amount Paid</span><span class="stub-val" style="color:#F5A623">${formatPrice(total)}</span></div>
-      <div class="stub-row"><span class="stub-key">Booking ID</span><span class="stub-val">${booking}</span></div>
-    `;
+      <div class="stub-row"><span class="stub-key">Seats</span><span class="stub-val">${seats}</span></div>
+      <div class="stub-row"><span class="stub-key">Amount Paid</span><span class="stub-val" style="color:#F5A623">${formatPrice(sub+tax)}</span></div>
+      <div class="stub-row"><span class="stub-key">Booking ID</span><span class="stub-val">${id}</span></div>`;
   }
 
-  function setPayMethod(el, showCard) {
-    document.querySelectorAll('.pay-method').forEach(e => e.classList.remove('active'));
-    el.classList.add('active');
-    const isCard = el.textContent.includes('Card');
-    const isUPI = el.textContent.includes('UPI');
-    document.getElementById('card-fields').style.display = isCard ? 'block' : 'none';
-    document.getElementById('upi-fields').style.display = isUPI ? 'block' : 'none';
-    document.getElementById('other-fields').style.display = (!isCard && !isUPI) ? 'block' : 'none';
-  }
-
-  function formatCard(input) {
-    let v = input.value.replace(/\D/g, '').substring(0, 16);
-    input.value = v.replace(/(.{4})/g, '$1 ').trim();
-  }
-
-  function showPage(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo(0, 0);
-    if (id === 'booking-page') buildCategories();
-  }
-
-  function resetAndHome() {
-    selected = [];
-    showPage('coming-soon');
-  }
+  function resetAndHome(){selected=[];seatErrorCount=0;clearInterval(holdTimerInterval);clearInterval(queueInterval);showPage('coming-soon');}
 </script>
 </body>
 </html>
