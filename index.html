@@ -1,88 +1,1004 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>RCB Match Booking</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RCB vs CSK – Book Tickets</title>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-<style>
+    :root {
+      --rcb: #D1212A;
+      --csk: #F5A623;
+    }
 
-body{
-font-family: Arial;
-background:#111;
-color:white;
-text-align:center;
-}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #0a0a0f;
+      color: #fff;
+      min-height: 100vh;
+    }
 
-h1{
-color:#ff0000;
-margin-top:40px;
-}
+    .page { display: none; }
+    .page.active { display: block; }
 
-.container{
-width:500px;
-margin:auto;
-}
+    /* ===== COMING SOON PAGE ===== */
+    #coming-soon {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #0a0a0f;
+      position: relative;
+      overflow: hidden;
+      padding: 40px 20px;
+    }
 
-.match{
-background:#1e1e1e;
-padding:20px;
-margin:20px 0;
-border-radius:10px;
-}
+    .bg-glow-red {
+      position: absolute; top: -80px; left: -80px;
+      width: 450px; height: 450px;
+      background: radial-gradient(circle, rgba(209,33,42,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .bg-glow-yellow {
+      position: absolute; bottom: -80px; right: -80px;
+      width: 450px; height: 450px;
+      background: radial-gradient(circle, rgba(245,166,35,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-button{
-padding:10px 20px;
-border:none;
-border-radius:6px;
-font-size:16px;
-cursor:pointer;
-}
+    .vs-banner {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
 
-.book{
-background:#ff0000;
-color:white;
-}
+    .team-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
 
-.soon{
-background:gray;
-color:white;
-cursor:not-allowed;
-}
+    .team-circle {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Teko', sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border: 2px solid rgba(255,255,255,0.15);
+    }
 
-</style>
+    .rcb-circle { background: linear-gradient(135deg, #D1212A, #8B0000); color: #fff; }
+    .csk-circle { background: linear-gradient(135deg, #F5A623, #c47e0a); color: #000; }
+
+    .team-name {
+      font-family: 'Teko', sans-serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+    }
+
+    .vs-text {
+      font-family: 'Teko', sans-serif;
+      font-size: 52px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.12);
+      line-height: 1;
+    }
+
+    .match-title {
+      font-family: 'Teko', sans-serif;
+      font-size: 64px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #D1212A 0%, #fff 50%, #F5A623 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative; z-index: 1;
+    }
+
+    .match-subtitle {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative; z-index: 1;
+    }
+
+    .match-info-card {
+      background: rgba(255,255,255,0.05);
+      border: 0.5px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 20px 32px;
+      display: flex;
+      gap: 32px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative; z-index: 1;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .info-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+    }
+
+    .info-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .info-divider {
+      width: 0.5px;
+      background: rgba(255,255,255,0.1);
+      align-self: stretch;
+    }
+
+    .coming-soon-badge {
+      background: rgba(245,166,35,0.1);
+      border: 0.5px solid rgba(245,166,35,0.35);
+      color: #F5A623;
+      font-size: 11px;
+      letter-spacing: 3px;
+      padding: 7px 20px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      display: inline-block;
+      position: relative; z-index: 1;
+    }
+
+    .book-now-btn {
+      background: linear-gradient(135deg, #D1212A, #a01820);
+      color: #fff;
+      border: none;
+      padding: 15px 48px;
+      border-radius: 12px;
+      font-family: 'Teko', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 28px rgba(209,33,42,0.45);
+      position: relative; z-index: 1;
+    }
+    .book-now-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(209,33,42,0.55); }
+    .book-now-btn:active { transform: translateY(0); }
+
+    /* ===== BOOKING PAGE ===== */
+    #booking-page {
+      background: #0a0a0f;
+      min-height: 100vh;
+      padding: 24px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .booking-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.08);
+    }
+
+    .back-btn {
+      background: rgba(255,255,255,0.06);
+      border: 0.5px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.6);
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    .booking-header-title {
+      font-family: 'Teko', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .booking-header-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.38);
+      margin-left: auto;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    @media (min-width: 600px) {
+      .categories-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    }
+
+    .category-card {
+      background: rgba(255,255,255,0.04);
+      border: 0.5px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .cat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .cat-name {
+      font-family: 'Teko', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .cat-price {
+      font-family: 'Teko', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .cat-desc {
+      font-size: 11px;
+      color: rgba(255,255,255,0.38);
+      margin-bottom: 10px;
+    }
+
+    .seats-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .seat {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      transition: all 0.15s;
+      font-weight: 500;
+      user-select: none;
+    }
+
+    .seat:hover:not(.booked) { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.13); }
+
+    .seat.selected {
+      background: #D1212A;
+      border-color: #D1212A;
+      color: #fff;
+    }
+
+    .seat.booked {
+      background: rgba(255,255,255,0.02);
+      border-color: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.1);
+      cursor: not-allowed;
+    }
+
+    .cat-platinum .cat-name { color: #e8d5ff; }
+    .cat-platinum .cat-price { color: #c084fc; }
+    .cat-platinum { border-color: rgba(192,132,252,0.28); }
+    .cat-platinum .seat.selected { background: #9333ea; border-color: #9333ea; }
+
+    .cat-gold .cat-name { color: #fde68a; }
+    .cat-gold .cat-price { color: #F5A623; }
+    .cat-gold { border-color: rgba(245,166,35,0.28); }
+    .cat-gold .seat.selected { background: #d97706; border-color: #d97706; }
+
+    .cat-silver .cat-name { color: #e2e8f0; }
+    .cat-silver .cat-price { color: #94a3b8; }
+    .cat-silver { border-color: rgba(148,163,184,0.28); }
+    .cat-silver .seat.selected { background: #475569; border-color: #475569; }
+
+    .cat-bronze .cat-name { color: #fed7aa; }
+    .cat-bronze .cat-price { color: #f97316; }
+    .cat-bronze { border-color: rgba(249,115,22,0.28); }
+    .cat-bronze .seat.selected { background: #c2410c; border-color: #c2410c; }
+
+    .cat-general .cat-name { color: #bbf7d0; }
+    .cat-general .cat-price { color: #22c55e; }
+    .cat-general { border-color: rgba(34,197,94,0.28); }
+    .cat-general .seat.selected { background: #16a34a; border-color: #16a34a; }
+
+    .cat-premium .cat-name { color: #fecaca; }
+    .cat-premium .cat-price { color: #D1212A; }
+    .cat-premium { border-color: rgba(209,33,42,0.32); }
+    .cat-premium .seat.selected { background: #D1212A; border-color: #D1212A; }
+
+    .legend {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.42);
+    }
+
+    .legend-box {
+      width: 14px; height: 14px;
+      border-radius: 3px;
+    }
+
+    .summary-bar {
+      background: rgba(255,255,255,0.05);
+      border: 0.5px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .summary-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .summary-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .summary-detail {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.82);
+      min-height: 20px;
+    }
+
+    .proceed-btn {
+      background: #D1212A;
+      color: #fff;
+      border: none;
+      padding: 12px 26px;
+      border-radius: 10px;
+      font-family: 'Teko', sans-serif;
+      font-size: 20px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      opacity: 0.38;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .proceed-btn.enabled {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .proceed-btn.enabled:hover { transform: translateY(-1px); }
+
+    .max-notice {
+      font-size: 11px;
+      color: rgba(245,166,35,0.85);
+      text-align: center;
+      min-height: 16px;
+      letter-spacing: 0.5px;
+      margin-top: 6px;
+    }
+
+    /* ===== PAYMENT PAGE ===== */
+    #payment-page {
+      background: #0a0a0f;
+      min-height: 100vh;
+      padding: 24px 20px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .payment-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 26px;
+      padding-bottom: 18px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.08);
+    }
+
+    .payment-header-title {
+      font-family: 'Teko', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .order-summary-card {
+      background: rgba(255,255,255,0.04);
+      border: 0.5px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .order-summary-title {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.32);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .order-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 14px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .order-row:last-of-type { border-bottom: none; }
+
+    .order-key { color: rgba(255,255,255,0.48); }
+    .order-val { font-weight: 500; }
+
+    .order-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 0 4px;
+      font-family: 'Teko', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      border-top: 0.5px solid rgba(255,255,255,0.1);
+      margin-top: 6px;
+    }
+
+    .order-total-key { color: rgba(255,255,255,0.65); }
+    .order-total-val { color: #F5A623; }
+
+    .payment-form {
+      background: rgba(255,255,255,0.04);
+      border: 0.5px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .payment-form-title {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.32);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .form-field { margin-bottom: 13px; }
+
+    .form-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.42);
+      margin-bottom: 5px;
+      display: block;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 0.5px solid rgba(255,255,255,0.14);
+      border-radius: 9px;
+      padding: 11px 13px;
+      color: #fff;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: rgba(209,33,42,0.6); }
+
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .pay-methods {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .pay-method {
+      flex: 1;
+      min-width: 80px;
+      padding: 9px 12px;
+      border-radius: 9px;
+      border: 0.5px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .pay-method.active {
+      border-color: rgba(209,33,42,0.55);
+      background: rgba(209,33,42,0.1);
+      color: #fff;
+    }
+
+    .pay-now-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #D1212A, #a01820);
+      color: #fff;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-family: 'Teko', sans-serif;
+      font-size: 24px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      box-shadow: 0 4px 24px rgba(209,33,42,0.42);
+      transition: transform 0.15s;
+    }
+    .pay-now-btn:hover { transform: translateY(-1px); }
+
+    /* ===== SUCCESS PAGE ===== */
+    #success-page {
+      background: #0a0a0f;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 76px; height: 76px;
+      background: rgba(34,197,94,0.1);
+      border: 1.5px solid rgba(34,197,94,0.38);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      margin-bottom: 22px;
+    }
+
+    .success-title {
+      font-family: 'Teko', sans-serif;
+      font-size: 46px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #22c55e;
+    }
+
+    .success-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+
+    .ticket-stub {
+      background: rgba(255,255,255,0.04);
+      border: 0.5px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 20px 24px;
+      max-width: 360px;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+
+    .stub-match {
+      font-family: 'Teko', sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #D1212A, #F5A623);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stub-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 6px 0;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .stub-row:last-child { border: none; }
+    .stub-key { color: rgba(255,255,255,0.38); }
+    .stub-val { font-weight: 500; }
+
+    .home-btn {
+      background: rgba(255,255,255,0.06);
+      border: 0.5px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.65);
+      padding: 11px 28px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .home-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  </style>
 </head>
-
 <body>
 
-<h1>RCB Match Ticket Booking</h1>
+<!-- COMING SOON PAGE -->
+<div id="coming-soon" class="page active">
+  <div class="bg-glow-red"></div>
+  <div class="bg-glow-yellow"></div>
 
-<div class="container">
+  <div class="coming-soon-badge">🔔 Coming Soon</div>
 
-<div class="match">
-<h3>RCB vs CSK</h3>
-<p>Date: April 10, 2026</p>
-<button class="book">Book Now</button>
+  <div class="vs-banner">
+    <div class="team-badge">
+      <div class="team-circle rcb-circle">RCB</div>
+      <div class="team-name">Bangalore</div>
+    </div>
+    <div class="vs-text">VS</div>
+    <div class="team-badge">
+      <div class="team-circle csk-circle">CSK</div>
+      <div class="team-name">Chennai</div>
+    </div>
+  </div>
+
+  <div class="match-title">EPIC CLASH</div>
+  <div class="match-subtitle">IPL 2025 · Match Day</div>
+
+  <div class="match-info-card">
+    <div class="info-item">
+      <span class="info-label">Date</span>
+      <span class="info-value">Apr 18, 2025</span>
+    </div>
+    <div class="info-divider"></div>
+    <div class="info-item">
+      <span class="info-label">Time</span>
+      <span class="info-value">7:30 PM IST</span>
+    </div>
+    <div class="info-divider"></div>
+    <div class="info-item">
+      <span class="info-label">Venue</span>
+      <span class="info-value">M. Chinnaswamy</span>
+    </div>
+    <div class="info-divider"></div>
+    <div class="info-item">
+      <span class="info-label">City</span>
+      <span class="info-value">Bengaluru</span>
+    </div>
+  </div>
+
+  <button class="book-now-btn" onclick="showPage('booking-page')">BOOK NOW →</button>
 </div>
 
-<div class="match">
-<h3>RCB vs MI</h3>
-<p>Date: April 18, 2026</p>
-<button class="book">Book Now</button>
+<!-- BOOKING PAGE -->
+<div id="booking-page" class="page">
+  <div class="booking-header">
+    <button class="back-btn" onclick="showPage('coming-soon')">←</button>
+    <div>
+      <div class="booking-header-title">Select Seats</div>
+    </div>
+    <div class="booking-header-sub">RCB vs CSK · Apr 18</div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-box" style="background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.2)"></div>
+      Available
+    </div>
+    <div class="legend-item">
+      <div class="legend-box" style="background:#D1212A;"></div>
+      Selected
+    </div>
+    <div class="legend-item">
+      <div class="legend-box" style="background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06)"></div>
+      Booked
+    </div>
+  </div>
+
+  <div class="categories-grid" id="categories-grid"></div>
+
+  <div class="max-notice" id="max-notice"></div>
+
+  <div class="summary-bar">
+    <div class="summary-info">
+      <span class="summary-label">Selected</span>
+      <span class="summary-detail" id="summary-detail">No seats selected</span>
+    </div>
+    <div class="summary-info" style="text-align:right">
+      <span class="summary-label">Total</span>
+      <span class="summary-detail" id="summary-total" style="font-family:'Teko',sans-serif;font-size:22px;color:#F5A623">₹0</span>
+    </div>
+    <button class="proceed-btn" id="proceed-btn" onclick="goToPayment()">PROCEED →</button>
+  </div>
 </div>
 
-<div class="match">
-<h3>RCB vs KKR</h3>
-<p>Date: April 25, 2026</p>
-<button class="soon">Coming Soon</button>
+<!-- PAYMENT PAGE -->
+<div id="payment-page" class="page">
+  <div class="payment-header">
+    <button class="back-btn" onclick="showPage('booking-page')">←</button>
+    <div class="payment-header-title">Payment</div>
+  </div>
+
+  <div class="order-summary-card">
+    <div class="order-summary-title">Order Summary</div>
+    <div id="order-summary-rows"></div>
+    <div class="order-total-row">
+      <span class="order-total-key">Total</span>
+      <span class="order-total-val" id="order-total-val">₹0</span>
+    </div>
+  </div>
+
+  <div class="payment-form">
+    <div class="payment-form-title">Payment Method</div>
+    <div class="pay-methods">
+      <div class="pay-method active" onclick="setPayMethod(this, true)">💳 Card</div>
+      <div class="pay-method" onclick="setPayMethod(this, false)">UPI</div>
+      <div class="pay-method" onclick="setPayMethod(this, false)">Net Banking</div>
+      <div class="pay-method" onclick="setPayMethod(this, false)">Wallet</div>
+    </div>
+
+    <div id="card-fields">
+      <div class="form-field">
+        <label class="form-label">Card Number</label>
+        <input class="form-input" type="text" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Cardholder Name</label>
+        <input class="form-input" type="text" placeholder="Name on card">
+      </div>
+      <div class="form-row-2">
+        <div class="form-field" style="margin:0">
+          <label class="form-label">Expiry</label>
+          <input class="form-input" type="text" placeholder="MM / YY" maxlength="7">
+        </div>
+        <div class="form-field" style="margin:0">
+          <label class="form-label">CVV</label>
+          <input class="form-input" type="password" placeholder="•••" maxlength="3">
+        </div>
+      </div>
+    </div>
+
+    <div id="upi-fields" style="display:none">
+      <div class="form-field">
+        <label class="form-label">UPI ID</label>
+        <input class="form-input" type="text" placeholder="yourname@upi">
+      </div>
+    </div>
+
+    <div id="other-fields" style="display:none">
+      <div class="form-field">
+        <label class="form-label">Account / Wallet Number</label>
+        <input class="form-input" type="text" placeholder="Enter details">
+      </div>
+    </div>
+  </div>
+
+  <button class="pay-now-btn" onclick="doPayment()">PAY NOW</button>
 </div>
 
-<div class="match">
-<h3>RCB vs SRH</h3>
-<p>Date: May 2, 2026</p>
-<button class="soon">Coming Soon</button>
+<!-- SUCCESS PAGE -->
+<div id="success-page" class="page">
+  <div class="success-icon">✓</div>
+  <div class="success-title">Booking Confirmed!</div>
+  <div class="success-sub">Your tickets are confirmed.<br>Check your email for the e-tickets.</div>
+
+  <div class="ticket-stub" id="ticket-stub">
+    <div class="stub-match">RCB vs CSK</div>
+    <div id="stub-rows"></div>
+  </div>
+
+  <button class="home-btn" onclick="resetAndHome()">← Back to Home</button>
 </div>
 
-</div>
+<script>
+  const CATEGORIES = [
+    { id:'platinum', name:'Platinum', desc:'Pavilion – Best view',   price:25000, cls:'cat-platinum', booked:[3,7] },
+    { id:'gold',     name:'Gold',     desc:'Club Level',             price:15000, cls:'cat-gold',     booked:[1,5] },
+    { id:'premium',  name:'Premium',  desc:'Lower Tier – Front',     price:10000, cls:'cat-premium',  booked:[2,8] },
+    { id:'silver',   name:'Silver',   desc:'Lower Tier – Mid',       price:5000,  cls:'cat-silver',   booked:[4,9] },
+    { id:'bronze',   name:'Bronze',   desc:'Upper Tier',             price:2000,  cls:'cat-bronze',   booked:[6,10] },
+    { id:'general',  name:'General',  desc:'Open Stand',             price:1000,  cls:'cat-general',  booked:[3,6] },
+  ];
 
+  const SEATS_PER_CAT = 10;
+  const MAX_SEATS = 2;
+  let selected = [];
+
+  function formatPrice(p) {
+    return '₹' + p.toLocaleString('en-IN');
+  }
+
+  function buildCategories() {
+    const grid = document.getElementById('categories-grid');
+    grid.innerHTML = '';
+    CATEGORIES.forEach(cat => {
+      const card = document.createElement('div');
+      card.className = 'category-card ' + cat.cls;
+
+      let seatsHTML = '';
+      for (let s = 1; s <= SEATS_PER_CAT; s++) {
+        const isBooked = cat.booked.includes(s);
+        const isSel = selected.some(x => x.catId === cat.id && x.seatNum === s);
+        const cls = isBooked ? 'seat booked' : isSel ? 'seat selected' : 'seat';
+        seatsHTML += `<div class="${cls}" data-cat="${cat.id}" data-seat="${s}" data-price="${cat.price}" data-catname="${cat.name}" onclick="toggleSeat(this)">${s}</div>`;
+      }
+
+      card.innerHTML = `
+        <div class="cat-header">
+          <div class="cat-name">${cat.name}</div>
+          <div class="cat-price">${formatPrice(cat.price)}</div>
+        </div>
+        <div class="cat-desc">${cat.desc}</div>
+        <div class="seats-row">${seatsHTML}</div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function toggleSeat(el) {
+    if (el.classList.contains('booked')) return;
+
+    const catId = el.dataset.cat;
+    const seatNum = parseInt(el.dataset.seat);
+    const price = parseInt(el.dataset.price);
+    const catName = el.dataset.catname;
+
+    const existIdx = selected.findIndex(x => x.catId === catId && x.seatNum === seatNum);
+
+    if (existIdx !== -1) {
+      selected.splice(existIdx, 1);
+      el.classList.remove('selected');
+    } else {
+      if (selected.length >= MAX_SEATS) {
+        const notice = document.getElementById('max-notice');
+        notice.textContent = 'Max 2 seats allowed per booking.';
+        setTimeout(() => { notice.textContent = ''; }, 2500);
+        return;
+      }
+      selected.push({ catId, seatNum, price, catName });
+      el.classList.add('selected');
+    }
+
+    updateSummary();
+  }
+
+  function updateSummary() {
+    const detail = document.getElementById('summary-detail');
+    const totalEl = document.getElementById('summary-total');
+    const btn = document.getElementById('proceed-btn');
+
+    if (selected.length === 0) {
+      detail.textContent = 'No seats selected';
+      totalEl.textContent = '₹0';
+      btn.classList.remove('enabled');
+    } else {
+      detail.textContent = selected.map(s => `${s.catName} #${s.seatNum}`).join(' + ');
+      totalEl.textContent = formatPrice(selected.reduce((a, s) => a + s.price, 0));
+      btn.classList.add('enabled');
+    }
+  }
+
+  function goToPayment() {
+    if (selected.length === 0) return;
+
+    const rowsEl = document.getElementById('order-summary-rows');
+    rowsEl.innerHTML = '';
+
+    selected.forEach(s => {
+      rowsEl.innerHTML += `<div class="order-row">
+        <span class="order-key">${s.catName} – Seat ${s.seatNum}</span>
+        <span class="order-val">${formatPrice(s.price)}</span>
+      </div>`;
+    });
+
+    const subtotal = selected.reduce((a, s) => a + s.price, 0);
+    const taxes = Math.round(subtotal * 0.05);
+    const total = subtotal + taxes;
+
+    rowsEl.innerHTML += `<div class="order-row">
+      <span class="order-key">Convenience Fee (5%)</span>
+      <span class="order-val">${formatPrice(taxes)}</span>
+    </div>`;
+
+    document.getElementById('order-total-val').textContent = formatPrice(total);
+    showPage('payment-page');
+  }
+
+  function doPayment() {
+    buildTicketStub();
+    showPage('success-page');
+  }
+
+  function buildTicketStub() {
+    const subtotal = selected.reduce((a, s) => a + s.price, 0);
+    const taxes = Math.round(subtotal * 0.05);
+    const total = subtotal + taxes;
+    const seatsList = selected.map(s => `${s.catName} #${s.seatNum}`).join(', ');
+    const booking = 'BK' + Math.floor(Math.random() * 900000 + 100000);
+
+    document.getElementById('stub-rows').innerHTML = `
+      <div class="stub-row"><span class="stub-key">Date</span><span class="stub-val">Apr 18, 2025 · 7:30 PM</span></div>
+      <div class="stub-row"><span class="stub-key">Venue</span><span class="stub-val">M. Chinnaswamy, Bengaluru</span></div>
+      <div class="stub-row"><span class="stub-key">Seats</span><span class="stub-val">${seatsList}</span></div>
+      <div class="stub-row"><span class="stub-key">Amount Paid</span><span class="stub-val" style="color:#F5A623">${formatPrice(total)}</span></div>
+      <div class="stub-row"><span class="stub-key">Booking ID</span><span class="stub-val">${booking}</span></div>
+    `;
+  }
+
+  function setPayMethod(el, showCard) {
+    document.querySelectorAll('.pay-method').forEach(e => e.classList.remove('active'));
+    el.classList.add('active');
+    const isCard = el.textContent.includes('Card');
+    const isUPI = el.textContent.includes('UPI');
+    document.getElementById('card-fields').style.display = isCard ? 'block' : 'none';
+    document.getElementById('upi-fields').style.display = isUPI ? 'block' : 'none';
+    document.getElementById('other-fields').style.display = (!isCard && !isUPI) ? 'block' : 'none';
+  }
+
+  function formatCard(input) {
+    let v = input.value.replace(/\D/g, '').substring(0, 16);
+    input.value = v.replace(/(.{4})/g, '$1 ').trim();
+  }
+
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+    if (id === 'booking-page') buildCategories();
+  }
+
+  function resetAndHome() {
+    selected = [];
+    showPage('coming-soon');
+  }
+</script>
 </body>
 </html>
